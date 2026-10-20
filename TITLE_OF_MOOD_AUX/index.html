@@ -1,1 +1,1091 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Must, Have to, Should, Need to Quiz</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Cambria, Georgia, serif;
+      background: #f5f7fb;
+      color: #222;
+      line-height: 1.7;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 40px auto;
+    }
+
+    header {
+      background: white;
+      border-radius: 18px;
+      padding: 35px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+    }
+
+    header h1 {
+      margin-bottom: 8px;
+      font-size: 2.2rem;
+    }
+
+    header p {
+      color: #666;
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .section {
+      background: white;
+      border-radius: 18px;
+      padding: 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+    }
+
+    .section h2 {
+      margin-top: 0;
+      border-bottom: 2px solid #e6eaf2;
+      padding-bottom: 10px;
+    }
+
+    .intro-box {
+      background: #f0f4ff;
+      border-left: 5px solid #4967d8;
+      padding: 18px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .modal-card {
+      border: 1px solid #e0e4ec;
+      border-radius: 14px;
+      padding: 20px;
+      margin: 18px 0;
+    }
+
+    .modal-card h3 {
+      margin-top: 0;
+      font-size: 1.4rem;
+    }
+
+    .keyword {
+      font-weight: bold;
+      color: #344fa1;
+    }
+
+    .example {
+      background: #fafafa;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .meaning {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #d9dde7;
+      padding: 13px;
+      text-align: left;
+    }
+
+    th {
+      background: #edf1ff;
+    }
+
+    .tip {
+      background: #fff8dc;
+      padding: 18px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .warning {
+      background: #fff0f0;
+      padding: 18px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .start-area {
+      text-align: center;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 13px 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: 0.2s;
+    }
+
+    .primary-btn {
+      background: #425fd1;
+      color: white;
+    }
+
+    .primary-btn:hover {
+      background: #3149ad;
+    }
+
+    .quiz-section {
+      display: none;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 11px;
+      background: #e6e6e6;
+      border-radius: 10px;
+      margin: 15px 0 25px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: #526ee8;
+      transition: width 0.4s ease;
+    }
+
+    .question-number {
+      color: #667;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    .question {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .situation {
+      color: #555;
+      background: #f6f7fa;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .choices {
+      display: grid;
+      gap: 12px;
+    }
+
+    .choice {
+      width: 100%;
+      background: white;
+      color: #222;
+      text-align: left;
+      border: 2px solid #dfe3ec;
+      padding: 15px 18px;
+      border-radius: 10px;
+    }
+
+    .choice:hover {
+      border-color: #6379d9;
+      background: #f5f7ff;
+    }
+
+    .choice.correct {
+      background: #e8f7ec;
+      border-color: #46a263;
+    }
+
+    .choice.wrong {
+      background: #fdeaea;
+      border-color: #d95d5d;
+    }
+
+    .choice:disabled {
+      cursor: default;
+      color: #222;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 10px;
+    }
+
+    .feedback.correct-feedback {
+      background: #eaf7ee;
+      border-left: 5px solid #45a663;
+    }
+
+    .feedback.wrong-feedback {
+      background: #fff0f0;
+      border-left: 5px solid #d85c5c;
+    }
+
+    .next-btn {
+      display: none;
+      margin-top: 20px;
+      float: right;
+      background: #425fd1;
+      color: white;
+    }
+
+    .clearfix {
+      clear: both;
+    }
+
+    .result {
+      display: none;
+      text-align: center;
+    }
+
+    .score {
+      font-size: 3rem;
+      font-weight: bold;
+      margin: 15px 0;
+      color: #425fd1;
+    }
+
+    .result-message {
+      font-size: 1.15rem;
+      margin-bottom: 25px;
+    }
+
+    .summary-box {
+      text-align: left;
+      background: #f7f8fb;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: 95%;
+        margin: 20px auto;
+      }
+
+      header,
+      .section {
+        padding: 22px;
+      }
+
+      header h1 {
+        font-size: 1.7rem;
+      }
+
+      .question {
+        font-size: 1.15rem;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      th, td {
+        padding: 9px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- TITLE -->
+  <header>
+    <h1>Must, Have to, Should, Need to</h1>
+    <p>They all mean “~해야 한다.” But do they really mean the same thing?</p>
+  </header>
+
+
+  <!-- LESSON -->
+  <section class="section" id="lesson">
+
+    <h2>1. 먼저 개념부터 알아봅시다!</h2>
+
+    <div class="intro-box">
+      <strong>must, have to, should, need to</strong>는 모두 한국어로
+      <strong>“~해야 한다”</strong>라고 번역될 수 있습니다.
+      <br><br>
+      하지만 원어민은 단순히 “강한 표현 → 약한 표현”만 보고 선택하지 않습니다.
+      <strong>왜 그 행동을 해야 하는지</strong>에 따라 표현이 달라집니다.
+    </div>
+
+
+    <!-- MUST -->
+    <div class="modal-card">
+      <h3>① MUST</h3>
+
+      <p>
+        <span class="keyword">화자가 강하게 필요하다고 느끼거나 직접 강조하는 의무</span>
+      </p>
+
+      <p>
+        “반드시 해야 해!”, “꼭 해야 해!”라는 느낌이 강합니다.
+        특히 말하는 사람이 그 행동을 중요하게 생각하거나 강하게 요구할 때 자주 사용합니다.
+      </p>
+
+      <div class="example">
+        <strong>I must call my mom tonight.</strong><br>
+        <span class="meaning">
+          오늘 밤 엄마에게 꼭 전화해야 해.
+        </span>
+      </div>
+
+      <p>
+        → 누군가의 규칙 때문이라기보다,
+        <strong>화자 스스로 이것이 매우 중요하다고 생각하고 있습니다.</strong>
+      </p>
+
+      <div class="example">
+        <strong>You must see this movie!</strong><br>
+        <span class="meaning">
+          너 이 영화 진짜 꼭 봐야 해!
+        </span>
+      </div>
+
+      <p>
+        → 법적인 의무가 아니라 화자가 아주 강하게 추천하고 있는 상황입니다.
+      </p>
+    </div>
+
+
+    <!-- HAVE TO -->
+    <div class="modal-card">
+      <h3>② HAVE TO</h3>
+
+      <p>
+        <span class="keyword">외부의 규칙, 상황, 일정 때문에 생긴 의무</span>
+      </p>
+
+      <p>
+        학교 규정, 회사 규칙, 법, 시간표, 상황 등
+        <strong>외부적인 이유</strong> 때문에 무언가를 해야 할 때 매우 자연스럽습니다.
+      </p>
+
+      <div class="example">
+        <strong>I have to submit this assignment by Friday.</strong><br>
+        <span class="meaning">
+          금요일까지 이 과제를 제출해야 해.
+        </span>
+      </div>
+
+      <p>
+        → 내가 개인적으로 원해서가 아니라
+        <strong>제출 기한이라는 외부 상황</strong>이 있습니다.
+      </p>
+
+      <div class="example">
+        <strong>Students have to show their ID to enter the building.</strong><br>
+        <span class="meaning">
+          학생들은 건물에 들어가기 위해 신분증을 보여줘야 합니다.
+        </span>
+      </div>
+
+      <p>
+        → 학교나 건물의 <strong>규칙</strong>입니다.
+      </p>
+    </div>
+
+
+    <!-- SHOULD -->
+    <div class="modal-card">
+      <h3>③ SHOULD</h3>
+
+      <p>
+        <span class="keyword">조언, 추천, 바람직한 행동</span>
+      </p>
+
+      <p>
+        반드시 해야 하는 것은 아니지만,
+        <strong>“그렇게 하는 것이 좋겠다”</strong>라고 조언할 때 사용합니다.
+      </p>
+
+      <div class="example">
+        <strong>You should get some rest.</strong><br>
+        <span class="meaning">
+          너 좀 쉬는 게 좋겠어.
+        </span>
+      </div>
+
+      <p>
+        → 강제로 쉬어야 하는 것은 아닙니다.
+        상대방에게 좋은 선택을 <strong>조언</strong>하고 있습니다.
+      </p>
+
+      <div class="example">
+        <strong>You should talk to your professor.</strong><br>
+        <span class="meaning">
+          교수님과 이야기해 보는 게 좋겠어.
+        </span>
+      </div>
+    </div>
+
+
+    <!-- NEED TO -->
+    <div class="modal-card">
+      <h3>④ NEED TO</h3>
+
+      <p>
+        <span class="keyword">어떤 목표를 위해 현실적으로 필요한 행동</span>
+      </p>
+
+      <p>
+        무언가를 하기 위해 필요한 조건이나 행동을 말할 때 많이 사용합니다.
+        must보다 중립적이고 일상적인 느낌입니다.
+      </p>
+
+      <div class="example">
+        <strong>I need to charge my phone.</strong><br>
+        <span class="meaning">
+          휴대폰을 충전해야 해.
+        </span>
+      </div>
+
+      <p>
+        → 배터리가 부족하기 때문에 충전이
+        <strong>실질적으로 필요한 상황</strong>입니다.
+      </p>
+
+      <div class="example">
+        <strong>You need to create an account before you can use the app.</strong><br>
+        <span class="meaning">
+          이 앱을 사용하려면 먼저 계정을 만들어야 합니다.
+        </span>
+      </div>
+
+      <p>
+        → 앱 사용이라는 목적을 달성하기 위한
+        <strong>필요 조건</strong>입니다.
+      </p>
+    </div>
+
+
+    <!-- COMPARISON -->
+    <h2>2. 한눈에 비교하기</h2>
+
+    <table>
+      <tr>
+        <th>표현</th>
+        <th>핵심 느낌</th>
+        <th>대표 상황</th>
+      </tr>
+
+      <tr>
+        <td><strong>must</strong></td>
+        <td>꼭! 반드시!</td>
+        <td>화자의 강한 의지·강조</td>
+      </tr>
+
+      <tr>
+        <td><strong>have to</strong></td>
+        <td>해야만 하는 상황</td>
+        <td>규칙·법·학교·회사·일정 등 외부 요인</td>
+      </tr>
+
+      <tr>
+        <td><strong>should</strong></td>
+        <td>하는 게 좋다</td>
+        <td>조언·추천</td>
+      </tr>
+
+      <tr>
+        <td><strong>need to</strong></td>
+        <td>할 필요가 있다</td>
+        <td>목표 달성을 위해 현실적으로 필요한 행동</td>
+      </tr>
+    </table>
+
+
+    <div class="tip">
+      <strong>💡 빠른 구분법</strong><br><br>
+
+      “내가 꼭 해야 한다고 강하게 느끼는가?”
+      → <strong>must</strong><br><br>
+
+      “규칙이나 일정 때문에 해야 하는가?”
+      → <strong>have to</strong><br><br>
+
+      “상대방에게 하면 좋다고 말해 주는 것인가?”
+      → <strong>should</strong><br><br>
+
+      “무언가를 하기 위해 현실적으로 필요한가?”
+      → <strong>need to</strong>
+    </div>
+
+
+    <div class="warning">
+      <strong>⚠️ 중요한 점!</strong><br><br>
+
+      실제 영어에서는 <strong>must와 have to가 겹치는 경우</strong>도 있습니다.
+      특히 강한 의무를 표현할 때 둘 다 자연스러울 수 있습니다.
+      <br><br>
+
+      따라서 영어는 단순히
+      <strong>“must가 제일 강하고, have to가 그다음”</strong>
+      처럼 강도만 외우는 것보다
+      <strong>왜 해야 하는지를 생각하는 것이 더 중요합니다.</strong>
+    </div>
+
+
+    <div class="warning">
+      <strong>🚨 Bonus: 부정형은 의미가 완전히 달라요!</strong><br><br>
+
+      <strong>You must not park here.</strong><br>
+      → 여기 주차하면 <strong>안 됩니다.</strong> (금지)<br><br>
+
+      <strong>You don't have to park here.</strong><br>
+      → 여기에 주차할 <strong>필요는 없습니다.</strong><br><br>
+
+      <strong>must not = 하면 안 된다</strong><br>
+      <strong>don't have to = 할 필요가 없다</strong>
+    </div>
+
+
+    <div class="start-area">
+      <h2>준비됐나요?</h2>
+      <p>
+        이제 실제 상황을 읽고 원어민이라면 어떤 표현을 가장 자연스럽게 사용할지 골라 보세요.
+      </p>
+
+      <button class="primary-btn" onclick="startQuiz()">
+        Start Quiz
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- QUIZ -->
+  <section class="section quiz-section" id="quizSection">
+
+    <div class="question-number" id="questionNumber"></div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="question" id="question"></div>
+
+    <div class="situation" id="situation"></div>
+
+    <div class="choices" id="choices"></div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <button class="next-btn" id="nextButton" onclick="nextQuestion()">
+      Next Question →
+    </button>
+
+    <div class="clearfix"></div>
+
+  </section>
+
+
+  <!-- RESULT -->
+  <section class="section result" id="result">
+
+    <h2>Quiz Complete! 🎉</h2>
+
+    <p>Your Score</p>
+
+    <div class="score" id="score"></div>
+
+    <div class="result-message" id="resultMessage"></div>
+
+    <div class="summary-box">
+      <strong>마지막으로 다시 기억하세요!</strong><br><br>
+
+      🔹 <strong>must</strong> = 화자가 강하게 “꼭 해야 해!”라고 느낌<br><br>
+
+      🔹 <strong>have to</strong> = 외부 규칙이나 상황 때문에 해야 함<br><br>
+
+      🔹 <strong>should</strong> = 하는 것이 좋다는 조언<br><br>
+
+      🔹 <strong>need to</strong> = 목표를 위해 현실적으로 필요한 행동
+    </div>
+
+    <button class="primary-btn" onclick="restartQuiz()">
+      Try Again
+    </button>
+
+  </section>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+  {
+    question:
+      "The university requires every first-year student to take this safety course. You ___ complete it before registration.",
+
+    situation:
+      "Situation: 이것은 대학교에서 정한 공식적인 규정입니다.",
+
+    choices: [
+      "must",
+      "have to",
+      "should",
+      "need to"
+    ],
+
+    answer: 1,
+
+    explanation:
+      "<strong>have to</strong>가 가장 자연스럽습니다. 학교의 공식적인 규정이라는 <strong>외부 요인</strong> 때문에 해야 하는 행동이기 때문입니다."
+  },
+
+
+  {
+    question:
+      "I've forgotten her birthday twice already. I ___ remember it this year!",
+
+    situation:
+      "Situation: 친구가 스스로 '이번에는 정말 꼭 기억해야 해!'라고 강하게 다짐하고 있습니다.",
+
+    choices: [
+      "must",
+      "have to",
+      "should",
+      "need to"
+    ],
+
+    answer: 0,
+
+    explanation:
+      "<strong>must</strong>가 가장 자연스럽습니다. 화자가 스스로 이 일을 매우 중요하게 생각하며 <strong>강한 의지</strong>를 표현하고 있습니다."
+  },
+
+
+  {
+    question:
+      "You've been studying for six hours without a break. You ___ get some rest.",
+
+    situation:
+      "Situation: 친구가 너무 오래 공부한 사람에게 걱정하며 조언하고 있습니다.",
+
+    choices: [
+      "must",
+      "have to",
+      "should",
+      "need to"
+    ],
+
+    answer: 2,
+
+    explanation:
+      "<strong>should</strong>가 가장 자연스럽습니다. 반드시 따라야 하는 규칙이 아니라 상대방에게 <strong>쉬는 것이 좋겠다고 조언</strong>하는 상황입니다."
+  },
+
+
+  {
+    question:
+      "My phone battery is at 2%. I ___ charge it before I leave.",
+
+    situation:
+      "Situation: 곧 외출해야 하는데 휴대폰 배터리가 거의 없습니다.",
+
+    choices: [
+      "must",
+      "have to",
+      "should",
+      "need to"
+    ],
+
+    answer: 3,
+
+    explanation:
+      "<strong>need to</strong>가 가장 자연스럽습니다. 외출 전에 휴대폰을 사용할 수 있도록 충전하는 것이 <strong>현실적으로 필요한 행동</strong>이기 때문입니다."
+  },
+
+
+  {
+    question:
+      "Employees ___ wear their ID cards while they are inside the office building.",
+
+    situation:
+      "Situation: 회사에서 직원들에게 적용하는 공식 규칙입니다.",
+
+    choices: [
+      "must",
+      "have to",
+      "should",
+      "need to"
+    ],
+
+    answer: 1,
+
+    explanation:
+      "<strong>have to</strong>가 자연스럽습니다. 회사에서 정한 <strong>외부 규정</strong> 때문에 직원들이 신분증을 착용해야 하기 때문입니다."
+  },
+
+
+  {
+    question:
+      "This restaurant is amazing. You ___ try their pasta!",
+
+    situation:
+      "Situation: 친구에게 정말 좋아하는 식당의 음식을 아주 강하게 추천하고 있습니다.",
+
+    choices: [
+      "must",
+      "have to",
+      "should",
+      "need to"
+    ],
+
+    answer: 0,
+
+    explanation:
+      "이 경우 <strong>must</strong>는 의무라기보다 <strong>강한 추천</strong>을 나타냅니다. '너 이거 진짜 꼭 먹어봐!'라는 느낌으로 원어민들이 실제 대화에서 자주 사용합니다."
+  },
+
+
+  {
+    question:
+      "I want to improve my English speaking, so I ___ practice speaking more often.",
+
+    situation:
+      "Situation: 영어 말하기 실력을 향상시키기 위해 어떤 행동이 필요한지 이야기하고 있습니다.",
+
+    choices: [
+      "must",
+      "have to",
+      "should",
+      "need to"
+    ],
+
+    answer: 3,
+
+    explanation:
+      "<strong>need to</strong>가 자연스럽습니다. 영어 말하기 실력 향상이라는 <strong>목표를 이루기 위해 필요한 행동</strong>을 이야기하고 있기 때문입니다."
+  },
+
+
+  {
+    question:
+      "You look really tired these days. You ___ go to bed a little earlier.",
+
+    situation:
+      "Situation: 피곤해 보이는 친구에게 더 일찍 자는 것이 좋겠다고 말하고 있습니다.",
+
+    choices: [
+      "must",
+      "have to",
+      "should",
+      "need to"
+    ],
+
+    answer: 2,
+
+    explanation:
+      "<strong>should</strong>가 가장 자연스럽습니다. 친구에게 행동을 강요하는 것이 아니라 <strong>건강을 위해 더 좋은 선택을 조언</strong>하고 있습니다."
+  }
+
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+
+function startQuiz() {
+
+  document.getElementById("lesson").style.display = "none";
+  document.getElementById("quizSection").style.display = "block";
+
+  currentQuestion = 0;
+  score = 0;
+
+  showQuestion();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+function showQuestion() {
+
+  answered = false;
+
+  const q = questions[currentQuestion];
+
+  document.getElementById("questionNumber").innerHTML =
+    "Question " + (currentQuestion + 1) + " of " + questions.length;
+
+  document.getElementById("question").innerHTML = q.question;
+
+  document.getElementById("situation").innerHTML = q.situation;
+
+  const progress =
+    ((currentQuestion) / questions.length) * 100;
+
+  document.getElementById("progressBar").style.width =
+    progress + "%";
+
+
+  const choicesDiv =
+    document.getElementById("choices");
+
+  choicesDiv.innerHTML = "";
+
+
+  q.choices.forEach(function(choice, index) {
+
+    const button =
+      document.createElement("button");
+
+    button.className = "choice";
+
+    button.innerHTML =
+      String.fromCharCode(65 + index) +
+      ". " +
+      choice;
+
+    button.onclick =
+      function() {
+        selectAnswer(index);
+      };
+
+    choicesDiv.appendChild(button);
+
+  });
+
+
+  document.getElementById("feedback").style.display =
+    "none";
+
+  document.getElementById("nextButton").style.display =
+    "none";
+
+}
+
+
+function selectAnswer(selectedIndex) {
+
+  if (answered) return;
+
+  answered = true;
+
+  const q =
+    questions[currentQuestion];
+
+  const buttons =
+    document.querySelectorAll(".choice");
+
+  const feedback =
+    document.getElementById("feedback");
+
+
+  buttons.forEach(function(button, index) {
+
+    button.disabled = true;
+
+    if (index === q.answer) {
+      button.classList.add("correct");
+    }
+
+  });
+
+
+  if (selectedIndex === q.answer) {
+
+    score++;
+
+    feedback.className =
+      "feedback correct-feedback";
+
+    feedback.innerHTML =
+      "<strong>✅ Correct!</strong><br><br>" +
+      q.explanation;
+
+  }
+
+  else {
+
+    buttons[selectedIndex]
+      .classList
+      .add("wrong");
+
+    feedback.className =
+      "feedback wrong-feedback";
+
+    feedback.innerHTML =
+      "<strong>❌ Not quite.</strong><br><br>" +
+      "The best answer is <strong>" +
+      q.choices[q.answer] +
+      "</strong>.<br><br>" +
+      q.explanation;
+
+  }
+
+
+  feedback.style.display =
+    "block";
+
+
+  const nextButton =
+    document.getElementById("nextButton");
+
+  nextButton.style.display =
+    "inline-block";
+
+
+  if (
+    currentQuestion ===
+    questions.length - 1
+  ) {
+
+    nextButton.innerHTML =
+      "See My Result →";
+
+  }
+
+  else {
+
+    nextButton.innerHTML =
+      "Next Question →";
+
+  }
+
+}
+
+
+function nextQuestion() {
+
+  currentQuestion++;
+
+  if (
+    currentQuestion <
+    questions.length
+  ) {
+
+    showQuestion();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+  else {
+
+    showResult();
+
+  }
+
+}
+
+
+function showResult() {
+
+  document.getElementById("quizSection").style.display =
+    "none";
+
+  document.getElementById("result").style.display =
+    "block";
+
+  document.getElementById("score").innerHTML =
+    score + " / " + questions.length;
+
+
+  const percentage =
+    (score / questions.length) * 100;
+
+  let message = "";
+
+
+  if (percentage === 100) {
+
+    message =
+      "Perfect! 🎉 You clearly understand how these four expressions are used in real situations.";
+
+  }
+
+  else if (percentage >= 75) {
+
+    message =
+      "Great job! 👍 You understand most of the differences. Review the situations you missed.";
+
+  }
+
+  else if (percentage >= 50) {
+
+    message =
+      "Good start! 🙂 Focus on why the speaker needs to do something: rule, advice, personal emphasis, or practical necessity.";
+
+  }
+
+  else {
+
+    message =
+      "Let's review once more! 📚 Don't memorize only the Korean meaning '~해야 한다.' Think about the reason behind the obligation.";
+
+  }
+
+
+  document.getElementById("resultMessage").innerHTML =
+    message;
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+function restartQuiz() {
+
+  document.getElementById("result").style.display =
+    "none";
+
+  document.getElementById("lesson").style.display =
+    "block";
+
+  currentQuestion = 0;
+  score = 0;
+
+  document.getElementById("progressBar").style.width =
+    "0%";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+</script>
+
+</body>
+</html>
